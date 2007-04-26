@@ -1,9 +1,13 @@
+%define	name	dhcpstatus
+%define	version	0.60
+%define	release	%mkrel 12
+
 Summary:	Dhcp IP status cgi
-Name:		dhcpstatus
-Version:	0.60
-Release:	11mdk
+Name:		%{name}
+Version:	%{version}
+Release:	%{release}
 Source:		%{name}_%{version}.tar.bz2
-Source1:	%{name}_%{version}.patch.bz2
+Source1:	%{name}_%{version}.patch
 #Source2:	%{name}_%{version}-lib.patch.bz2
 License:	GPL
 URL:		http://dhcpstatus.sourceforge.net
