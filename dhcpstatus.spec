@@ -11,7 +11,6 @@ Source1:	%{name}_%{version}.patch
 #Source2:	%{name}_%{version}-lib.patch.bz2
 License:	GPL
 URL:		http://dhcpstatus.sourceforge.net
-BuildRoot:	%{_tmppath}/build-%{name}_%{version}
 Group:		Monitoring
 Requires:	dhcp-server perl-CGI
 BuildArch:	noarch
