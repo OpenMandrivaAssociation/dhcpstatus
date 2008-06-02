@@ -46,11 +46,11 @@ cp -a $RPM_BUILD_DIR/%{name}_%{version}/{README,INSTALL,LICENSE} $RPM_BUILD_ROOT
 cp -a $RPM_BUILD_DIR/%{name}_%{version}/scripts/*.cgi $RPM_BUILD_ROOT/var/www/cgi-bin
 cp -a $RPM_BUILD_DIR/%{name}_%{version}/scripts/%{name} $RPM_BUILD_ROOT/%{_bindir}
 cp -a $RPM_BUILD_DIR/%{name}_%{version}/*.ini $RPM_BUILD_ROOT/%{_sysconfdir}/
-perl -p -i -e 's|/etc/dhcpd\.leases|%{_localstatedir}/dhcp/dhcpd.leases|' $RPM_BUILD_ROOT/var/www/cgi-bin/%{name}.cgi
+perl -p -i -e 's|/etc/dhcpd\.leases|%{_localstatedir}/lib/dhcp/dhcpd.leases|' $RPM_BUILD_ROOT/var/www/cgi-bin/%{name}.cgi
 perl -p -i -e 's|/usr/local/dhcpstatus|%{_sysconfdir}|' $RPM_BUILD_ROOT/%{_bindir}/%{name}
 perl -p -i -e 's|/local||' $RPM_BUILD_ROOT/%{_bindir}/%{name}
 perl -p -i -e 's|/usr/local/dhcpstatus|%{_sysconfdir}|' $RPM_BUILD_ROOT/var/www/cgi-bin/%{name}.cgi
-perl -p -i -e 's|/etc/dhcpd\.leases|%{_localstatedir}/dhcp/dhcpd.leases|' $RPM_BUILD_ROOT/%{_sysconfdir}/dhcpstatus.ini
+perl -p -i -e 's|/etc/dhcpd\.leases|%{_localstatedir}/lib/dhcp/dhcpd.leases|' $RPM_BUILD_ROOT/%{_sysconfdir}/dhcpstatus.ini
 
 #(peroyvind) remove unpackaged files
 rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}_%{version}
