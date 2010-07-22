@@ -1,6 +1,6 @@
 %define	name	dhcpstatus
 %define	version	0.60
-%define	release	%mkrel 16
+%define	release	%mkrel 17
 
 Summary:	Dhcp IP status cgi
 Name:		%{name}
