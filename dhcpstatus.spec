@@ -36,16 +36,16 @@ mkdir -p %{buildroot}%{_docdir}/%{name}_%{version}
 mkdir -p %{buildroot}/var/www/cgi-bin
 mkdir -p %{buildroot}/%{_bindir}
 mkdir -p %{buildroot}/%{_sysconfdir}/
-tar xf $RPM_BUILD_DIR/%{name}_%{version}/libraries.tar
+tar xf %{_builddir}/%{name}_%{version}/libraries.tar
 # TODO: Fix Apply patch 
 bzcat %{SOURCE1} | patch -p0
 #bzcat %{SOURCE2} | patch -p0
 
-cp -a $RPM_BUILD_DIR/%{name}_%{version}/%{name}/*.pm %{buildroot}/%perl_vendorlib/%{name}
-cp -a $RPM_BUILD_DIR/%{name}_%{version}/{README,INSTALL,LICENSE} %{buildroot}%{_docdir}/%{name}_%{version}
-cp -a $RPM_BUILD_DIR/%{name}_%{version}/scripts/*.cgi %{buildroot}/var/www/cgi-bin
-cp -a $RPM_BUILD_DIR/%{name}_%{version}/scripts/%{name} %{buildroot}/%{_bindir}
-cp -a $RPM_BUILD_DIR/%{name}_%{version}/*.ini %{buildroot}/%{_sysconfdir}/
+cp -a %{_builddir}/%{name}_%{version}/%{name}/*.pm %{buildroot}/%perl_vendorlib/%{name}
+cp -a %{_builddir}/%{name}_%{version}/{README,INSTALL,LICENSE} %{buildroot}%{_docdir}/%{name}_%{version}
+cp -a %{_builddir}/%{name}_%{version}/scripts/*.cgi %{buildroot}/var/www/cgi-bin
+cp -a %{_builddir}/%{name}_%{version}/scripts/%{name} %{buildroot}/%{_bindir}
+cp -a %{_builddir}/%{name}_%{version}/*.ini %{buildroot}/%{_sysconfdir}/
 perl -p -i -e 's|/etc/dhcpd\.leases|%{_localstatedir}/lib/dhcp/dhcpd.leases|' %{buildroot}/var/www/cgi-bin/%{name}.cgi
 perl -p -i -e 's|/usr/local/dhcpstatus|%{_sysconfdir}|' %{buildroot}/%{_bindir}/%{name}
 perl -p -i -e 's|/local||' %{buildroot}/%{_bindir}/%{name}
