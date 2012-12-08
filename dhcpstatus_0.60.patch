@@ -1,0 +1,53 @@
+diff -bruN dhcpstatus/Subnet.pm dhcpstatus.old/Subnet.pm
+--- dhcpstatus/Subnet.pm	Fri Aug 31 06:05:22 2001
++++ dhcpstatus.old/Subnet.pm	Thu Mar 14 09:15:16 2002
+@@ -116,7 +116,7 @@
+    foreach my $ip (@_) {
+       $subnet->{IPS}{$ip} = $ip;
+    }
+-   return(keys(%{$subnet->{IPS}}));
++   return(sort (keys(%{$subnet->{IPS}})));
+ }
+ 
+ #
+diff -bruN dhcpstatus/dhcpstatus.pm dhcpstatus.old/dhcpstatus.pm
+--- dhcpstatus/dhcpstatus.pm	Fri Aug 31 06:33:34 2001
++++ dhcpstatus.old/dhcpstatus.pm	Thu Mar 14 09:37:38 2002
+@@ -238,8 +238,13 @@
+       my $netmask = $subnet->netmask;
+       my $router = $subnet->router;
+       my $ips_defined = $subnet->ips_defined;
+-      my $ip_min = $subnet->ip_min;
+-      my $ip_max = $subnet->ip_max;
++my $i=0;
++my @val;
++foreach my $key (sort keys(%{$subnet->{IPS}})) {
++	$val[$i++]=$key
++};
++      my $ip_min = $val[0];
++      my $ip_max = $val[scalar(@val)-1];
+       my $used_ips = 0;
+       my $free_ips = 0;
+       my $num_min = &ip2num($ip_min);
+diff -bruN dhcpstatus/dhcpstatus_subnet.pm dhcpstatus.old/dhcpstatus_subnet.pm
+--- dhcpstatus/dhcpstatus_subnet.pm	Sun Aug 12 01:00:50 2001
++++ dhcpstatus.old/dhcpstatus_subnet.pm	Thu Mar 14 09:32:32 2002
+@@ -280,8 +280,16 @@
+ #
+ 
+    my $break = 1;
+-IP:for (my $num = &ip2num($subnet->ip_min);
+-           $num <= &ip2num($subnet->ip_max);
++my $i=0;
++my @val;
++foreach my $key (sort keys(%{$subnet->{IPS}})) { $val[$i++]=$key };
++      my $ip_min = $val[0];
++      my $ip_max = $val[scalar(@val)-1];
++      my $num_min = &ip2num($ip_min);
++      my $num_max = &ip2num($ip_max);
++
++IP:for ( my $num = $num_min;
++           $num <= $num_max;
+            $num++ ) {
+       my $ip = &num2ip($num);
+       my @row;

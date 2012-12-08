@@ -30,33 +30,33 @@ are used by ISC's DHCP server, DHCPD.
 %build
 
 %install
-rm -rf %{buildroot}
-mkdir -p %{buildroot}/%perl_vendorlib/%{name}
-mkdir -p %{buildroot}%{_docdir}/%{name}_%{version}
-mkdir -p %{buildroot}/var/www/cgi-bin
-mkdir -p %{buildroot}/%{_bindir}
-mkdir -p %{buildroot}/%{_sysconfdir}/
-tar xf %{_builddir}/%{name}_%{version}/libraries.tar
+rm -rf $RPM_BUILD_ROOT
+mkdir -p $RPM_BUILD_ROOT/%perl_vendorlib/%{name}
+mkdir -p $RPM_BUILD_ROOT%{_docdir}/%{name}_%{version}
+mkdir -p $RPM_BUILD_ROOT/var/www/cgi-bin
+mkdir -p $RPM_BUILD_ROOT/%{_bindir}
+mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/
+tar xf $RPM_BUILD_DIR/%{name}_%{version}/libraries.tar
 # TODO: Fix Apply patch 
 bzcat %{SOURCE1} | patch -p0
 #bzcat %{SOURCE2} | patch -p0
 
-cp -a %{_builddir}/%{name}_%{version}/%{name}/*.pm %{buildroot}/%perl_vendorlib/%{name}
-cp -a %{_builddir}/%{name}_%{version}/{README,INSTALL,LICENSE} %{buildroot}%{_docdir}/%{name}_%{version}
-cp -a %{_builddir}/%{name}_%{version}/scripts/*.cgi %{buildroot}/var/www/cgi-bin
-cp -a %{_builddir}/%{name}_%{version}/scripts/%{name} %{buildroot}/%{_bindir}
-cp -a %{_builddir}/%{name}_%{version}/*.ini %{buildroot}/%{_sysconfdir}/
-perl -p -i -e 's|/etc/dhcpd\.leases|%{_localstatedir}/lib/dhcp/dhcpd.leases|' %{buildroot}/var/www/cgi-bin/%{name}.cgi
-perl -p -i -e 's|/usr/local/dhcpstatus|%{_sysconfdir}|' %{buildroot}/%{_bindir}/%{name}
-perl -p -i -e 's|/local||' %{buildroot}/%{_bindir}/%{name}
-perl -p -i -e 's|/usr/local/dhcpstatus|%{_sysconfdir}|' %{buildroot}/var/www/cgi-bin/%{name}.cgi
-perl -p -i -e 's|/etc/dhcpd\.leases|%{_localstatedir}/lib/dhcp/dhcpd.leases|' %{buildroot}/%{_sysconfdir}/dhcpstatus.ini
+cp -a $RPM_BUILD_DIR/%{name}_%{version}/%{name}/*.pm $RPM_BUILD_ROOT/%perl_vendorlib/%{name}
+cp -a $RPM_BUILD_DIR/%{name}_%{version}/{README,INSTALL,LICENSE} $RPM_BUILD_ROOT%{_docdir}/%{name}_%{version}
+cp -a $RPM_BUILD_DIR/%{name}_%{version}/scripts/*.cgi $RPM_BUILD_ROOT/var/www/cgi-bin
+cp -a $RPM_BUILD_DIR/%{name}_%{version}/scripts/%{name} $RPM_BUILD_ROOT/%{_bindir}
+cp -a $RPM_BUILD_DIR/%{name}_%{version}/*.ini $RPM_BUILD_ROOT/%{_sysconfdir}/
+perl -p -i -e 's|/etc/dhcpd\.leases|%{_localstatedir}/lib/dhcp/dhcpd.leases|' $RPM_BUILD_ROOT/var/www/cgi-bin/%{name}.cgi
+perl -p -i -e 's|/usr/local/dhcpstatus|%{_sysconfdir}|' $RPM_BUILD_ROOT/%{_bindir}/%{name}
+perl -p -i -e 's|/local||' $RPM_BUILD_ROOT/%{_bindir}/%{name}
+perl -p -i -e 's|/usr/local/dhcpstatus|%{_sysconfdir}|' $RPM_BUILD_ROOT/var/www/cgi-bin/%{name}.cgi
+perl -p -i -e 's|/etc/dhcpd\.leases|%{_localstatedir}/lib/dhcp/dhcpd.leases|' $RPM_BUILD_ROOT/%{_sysconfdir}/dhcpstatus.ini
 
 #(peroyvind) remove unpackaged files
-rm -rf %{buildroot}%{_docdir}/%{name}_%{version}
+rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}_%{version}
 
 %clean
-rm -rf %{buildroot}
+rm -rf $RPM_BUILD_ROOT
 
 %files 
 %defattr(-,root,root)
@@ -65,4 +65,63 @@ rm -rf %{buildroot}
 %attr(755,root,root) /var/www/cgi-bin/*
 %{_bindir}/*
 %config(noreplace) %{_sysconfdir}/*ini
+
+
+
+%changelog
+* Tue May 03 2011 Oden Eriksson <oeriksson@mandriva.com> 0.60-18mdv2011.0
++ Revision: 663769
+- mass rebuild
+
+* Thu Jul 22 2010 Funda Wang <fwang@mandriva.org> 0.60-17mdv2011.0
++ Revision: 557001
+- rebuild
+
+* Tue Mar 16 2010 Oden Eriksson <oeriksson@mandriva.com> 0.60-16mdv2010.1
++ Revision: 522452
+- rebuilt for 2010.1
+
+* Sun Aug 09 2009 Oden Eriksson <oeriksson@mandriva.com> 0.60-15mdv2010.0
++ Revision: 413351
+- rebuild
+
+* Mon Jun 16 2008 Thierry Vignaud <tv@mandriva.org> 0.60-14mdv2009.0
++ Revision: 220621
+- rebuild
+
+  + Pixel <pixel@mandriva.com>
+    - adapt to %%_localstatedir now being /var instead of /var/lib (#22312)
+
+* Fri Jan 11 2008 Thierry Vignaud <tv@mandriva.org> 0.60-13mdv2008.1
++ Revision: 149173
+- rebuild
+- kill re-definition of %%buildroot on Pixel's request
+
+  + Olivier Blin <oblin@mandriva.com>
+    - restore BuildRoot
+
+  + Adam Williamson <awilliamson@mandriva.org>
+    - bunzip2 patch, rebuild for new era
+
+
+* Sun Jan 08 2006 Mandriva Linux Team <http://www.mandrivaexpert.com/> 0.60-11mdk
+- Rebuild
+
+* Thu Jan 15 2004 Florin <florin@mandrakesoft.com> 0.60-10mdk
+- fix the perl wrong Requires (requires_exceptions)
+
+* Thu Nov 27 2003 Florin <florin@mandrakesoft.com> 0.60-9mdk
+- get rid of the patch2 (it breaks everything)
+
+* Thu Aug 07 2003 Per Øyvind Karlsen <peroyvind@linux-mandrake.com> 0.60-8mdk
+- macroize
+- bzip2 patches
+- from Douglas Wilkins <douglasw@mweb.co.za>:
+	o add "package" statement to all .pm files via patch in source2
+	o apply patches in source1 and source2
+
+* Thu Jun 05 2003 Per Øyvind Karlsen <peroyvind@sintrax.net> 0.60-7mdk
+- quiet setup
+- rm -rf $RPM_BUILD_ROOT in %%install
+- fix unpackaged files
 
