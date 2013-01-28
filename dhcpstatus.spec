@@ -55,9 +55,6 @@ perl -p -i -e 's|/etc/dhcpd\.leases|%{_localstatedir}/lib/dhcp/dhcpd.leases|' $R
 #(peroyvind) remove unpackaged files
 rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}_%{version}
 
-%clean
-rm -rf $RPM_BUILD_ROOT
-
 %files 
 %defattr(-,root,root)
 %doc  INSTALL README LICENSE
