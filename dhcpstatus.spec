@@ -1,7 +1,7 @@
 Summary:	Dhcp IP status cgi
 Name:		dhcpstatus
 Version:	0.60
-Release:	22
+Release:	23
 License:	GPLv2
 Group:		Monitoring
 Url:		http://dhcpstatus.sourceforge.net
