@@ -4,7 +4,7 @@ Version:	0.60
 Release:	29
 License:	GPLv2
 Group:		Monitoring
-Url:		http://dhcpstatus.sourceforge.net
+Url:		https://dhcpstatus.sourceforge.net
 Source0:	%{name}_%{version}.tar.bz2
 Source1:	%{name}_%{version}.patch
 #Source2:	%{name}_%{version}-lib.patch.bz2
